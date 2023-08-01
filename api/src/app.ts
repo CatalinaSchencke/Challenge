@@ -1,7 +1,7 @@
 import express from 'express';
 const bp = require('body-parser')
 import {db} from './firebase';
-import { doc, collection, setDoc, arrayUnion, updateDoc } from "firebase/firestore"; 
+import { doc, collection, setDoc, getDoc, arrayUnion, updateDoc } from "firebase/firestore"; 
 
 const app = express();
 const port = 3000;
@@ -51,6 +51,30 @@ app.post ('/addServices', async (req, res) => {
     res.send(error);
   }
 });
+
+//obtener todos los servicios de un usuario
+app.get('/getUser', async (req, res) => {
+  try{
+    //Obtener el id del usuario
+    const id = req.body.email;
+    //Obtener la referencia del usuario
+    const userdb = collection(db, "Users");
+    const userRef = doc(userdb, id);
+    //Ver si el usuario existe
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      //Si existe, obtener los servicios
+      res.send(docSnap.data().services);
+    } else {
+      //Si no existe, enviar mensaje
+      res.send({"message": false});
+    }
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
 
 
 app.listen(port, () => {
