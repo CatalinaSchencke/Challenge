@@ -101,7 +101,14 @@ app.patch('/updateService', async (req, res) => {
           }
         }
       });
-      res.send(response);
+      // Si la response no entrega error
+      if (response === void(0)) {
+          //Enviar el servicio actualizado
+          res.send({
+            ... services[numService],
+            pending: pendingUpdate
+          });
+      }
     }
 
   }
