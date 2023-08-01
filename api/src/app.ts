@@ -28,6 +28,29 @@ app.post('/addUser', async (req, res) => {
   res.send(response);
 });
 
+app.post ('/addServices', async (req, res) => {
+  try{
+    //Identificamos al usuario por su correo (id)
+    const id = req.body.email;
+    const userdb = collection(db, "Users");
+    const userRef = doc(userdb, id);
+
+    // Añadir un servicio
+    const userJson ={
+      date: req.body.date,
+      service: req.body.service,
+      value: req.body.value,
+      pending: req.body.pending
+    }
+    
+    const response = updateDoc(userRef, {
+      services: arrayUnion(userJson)
+    });
+    res.send(response);
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 
 app.listen(port, () => {
