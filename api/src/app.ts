@@ -1,5 +1,7 @@
 import express from 'express';
 const bp = require('body-parser')
+import {db} from './firebase';
+
 
 const app = express();
 const port = 3000;
