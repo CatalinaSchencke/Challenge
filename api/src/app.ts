@@ -9,12 +9,13 @@ const port = 3000;
 app.use(bp.json())
 
 app.post('/addUser', async (req, res) => {
-  // Añadir un usuario a la base de datos (con el correo como id)
+
+  // add user to db (id = email)
   const id = req.body.email;
   const userdb = collection(db, "Users");
   const userRef = doc(userdb, id);
 
-  // Añadir un servicio para una creación de usuario correcta
+  // data
   const userJson ={
     date: req.body.date,
     service: req.body.service,
@@ -22,92 +23,120 @@ app.post('/addUser', async (req, res) => {
     pending: req.body.pending
   }
   
+  //add services collection
+  const servicedb = collection(db, "Services");
+  //add doc services
+  const serviceRef = doc(servicedb);
+  //put data
+  setDoc(serviceRef, userJson);
+
+  //reference to service in user services array
   const response = setDoc(userRef, {
-    services: arrayUnion(userJson)
+    services: arrayUnion(serviceRef)
   });
+
   res.send(response);
 });
 
-app.post ('/addServices', async (req, res) => {
-  try{
-    //Identificamos al usuario por su correo (id)
-    const id = req.body.email;
-    const userdb = collection(db, "Users");
-    const userRef = doc(userdb, id);
+app.post('/addService', async (req, res) => {
 
-    // Añadir un servicio
-    const userJson ={
-      date: req.body.date,
-      service: req.body.service,
-      value: req.body.value,
-      pending: req.body.pending
-    }
-    
-    const response = updateDoc(userRef, {
-      services: arrayUnion(userJson)
-    });
-    res.send(response);
-  } catch (error) {
-    res.send(error);
+  // search user linked to db (id = email)
+  const id = req.body.email;
+  const userdb = collection(db, "Users");
+  const userRef = doc(userdb, id);
+
+  // add data
+  const userJson ={
+    date: req.body.date,
+    service: req.body.service,
+    value: req.body.value,
+    pending: req.body.pending
   }
+  
+  //add services collection
+  const servicedb = collection(db, "Services");
+  //add doc services
+  const serviceRef = doc(servicedb);
+  //put data in service
+  setDoc(serviceRef, userJson);
+
+  //new reference to service in user services array
+  const response = updateDoc(userRef, {
+    services: arrayUnion(serviceRef)
+  });
+
+  res.send(response);
 });
 
-//obtener todos los servicios de un usuario
+
+
+//get all services from user
 app.get('/getUser', async (req, res) => {
   try{
-    //Obtener el id del usuario
+    //get user id
     const id = req.body.email;
-    //Obtener la referencia del usuario
-    const userdb = collection(db, "Users");
-    const userRef = doc(userdb, id);
-    //Ver si el usuario existe
-    const docSnap = await getDoc(userRef);
+    //get user reference
+    const docRef = doc(db, "Users", id);
+    //get user data
+    const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
-      //Si existe, obtener los servicios
-      res.send(docSnap.data().services);
+      //create array of services to fill
+      const services = [];
+
+      //for each service in user services array
+      for (const i in docSnap.data().services){
+        //get service reference
+        const refService= docSnap.data().services[i];
+        //get service data
+        const docService = await getDoc(refService);
+        //if service exists, push id of service and datato array
+        if (docService.exists()) {
+          services.push({
+            id: refService.id,
+            data : docService.data()
+          });
+        }
+      }
+
+      //send array
+      res.send(services);
+
     } else {
-      //Si no existe, enviar mensaje
-      res.send({"message": false});
+      console.log("No such service!");
     }
   } catch (error) {
     res.send(error);
   }
 });
 
-//actualizar parámetro pending de servicio
+// update pending status on service
 app.patch('/updateService', async (req, res) => {
   try{
-    //Obtener el id del usuario
-    const id = req.body.email;
-    //Obtener la referencia del usuario
-    const userdb = collection(db, "Users");
-    const userRef = doc(userdb, id);
+    //get service id
+    const idService = req.body.id;
 
-    //Obtener el número del servicio (posición en el arreglo)
-    const numService = req.body.numService;
-    //Obtener el valor a actualizar
+    //get new pending status
     const pendingUpdate = req.body.pending;
-    //Ver si el servicio existe
-    const docSnap = await getDoc(userRef);
+
+    //get service reference
+    const serviceRef = doc(db, "Services", idService);
+    //get service data
+    const docSnap = await getDoc(serviceRef);
+
     if (docSnap.exists()) {
-      //Si existe, actualizar el parámetro pending
-      const services = docSnap.data().services;
-      const response = await updateDoc(userRef, {
-        services: {
-          ... services,
-          [numService]: {
-            ... services[numService],
-            pending: pendingUpdate
-          }
-        }
-      });
-      // Si la response no entrega error
+      //create service object with new pending status
+      const service = {
+        date : docSnap.data().date,
+        service : docSnap.data().service,
+        value : docSnap.data().value,
+        pending: pendingUpdate
+      }
+      //update service
+      const response = await updateDoc(serviceRef, service);
+      // if response is undefined, send service
       if (response === void(0)) {
-          //Enviar el servicio actualizado
-          res.send({
-            ... services[numService],
-            pending: pendingUpdate
-          });
+          res.send(service);
       }
     }
 
