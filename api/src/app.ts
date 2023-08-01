@@ -74,7 +74,41 @@ app.get('/getUser', async (req, res) => {
   }
 });
 
+//actualizar parámetro pending de servicio
+app.patch('/updateService', async (req, res) => {
+  try{
+    //Obtener el id del usuario
+    const id = req.body.email;
+    //Obtener la referencia del usuario
+    const userdb = collection(db, "Users");
+    const userRef = doc(userdb, id);
 
+    //Obtener el número del servicio (posición en el arreglo)
+    const numService = req.body.numService;
+    //Obtener el valor a actualizar
+    const pendingUpdate = req.body.pending;
+    //Ver si el servicio existe
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      //Si existe, actualizar el parámetro pending
+      const services = docSnap.data().services;
+      const response = await updateDoc(userRef, {
+        services: {
+          ... services,
+          [numService]: {
+            ... services[numService],
+            pending: pendingUpdate
+          }
+        }
+      });
+      res.send(response);
+    }
+
+  }
+  catch (error) {
+    res.send(error);
+  }
+});
 
 
 app.listen(port, () => {
