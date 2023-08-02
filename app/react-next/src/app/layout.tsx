@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 
+import { ReduxProvider } from '@/redux/provider';
+
 import Nav from './components/nav'
 
 const poppins = Poppins({
@@ -23,8 +25,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={poppins.className}>
-        <Nav />
-        {children}
+        <ReduxProvider>
+          <Nav />
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   )
