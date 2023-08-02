@@ -40,7 +40,7 @@ app.post('/addUser', async (req, res) => {
   res.send(response);
 });
 
-app.post('/addService', async (req, res) => {
+app.post('/service/addService', async (req, res) => {
 
   // search user linked to db (id = email)
   const id = req.body.email;
@@ -116,7 +116,7 @@ app.post('/auth/login', async (req, res) => {
 });
 
 // update pending status on service
-app.patch('/updateService', async (req, res) => {
+app.patch('/service/updateService', async (req, res) => {
   try {
     //get service id
     const idService = req.body.id;
