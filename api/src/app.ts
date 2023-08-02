@@ -102,9 +102,12 @@ app.post('/auth/login', async (req, res) => {
       }
 
       //send array
-      res.send(services);
+      res.send({ status: "success", services: services });
 
     } else {
+      res.send({
+        status: "error"
+      });
       console.log("No such service!");
     }
   } catch (error) {
