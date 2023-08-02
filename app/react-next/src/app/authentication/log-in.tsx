@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from "react";
 
 import { logIn } from "@/redux/features/auth-slice";
@@ -13,7 +12,6 @@ import Title from '../components/common/title';
 
 export default function LogIn() {
 
-    const router = useRouter();
     const [email, setEmail] = useState('');
     const dispatch = useDispatch<AppDispatch>();
 
@@ -34,7 +32,6 @@ export default function LogIn() {
         if (data.status === "success") {
             dispatch(logIn(email));
             dispatch(addServices(data.services));
-            router.push('/dashboard');
         }
     }
 
