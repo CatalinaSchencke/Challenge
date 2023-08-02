@@ -4,7 +4,7 @@ import { Poppins } from 'next/font/google'
 
 import { ReduxProvider } from '@/redux/provider';
 
-import Nav from './components/nav'
+import Nav from './components/Nav'
 
 const poppins = Poppins({
   weight: ['400', '500', '600', '700'],
