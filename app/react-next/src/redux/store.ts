@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import authReducer from "./features/auth-slice";
 import servicesReducer from "./features/services-slice";
+import paymentReducer from "./features/payment-slice";
 
 export const store = configureStore({
     reducer: {
         authReducer,
         servicesReducer,
+        paymentReducer
     },
 });
 
