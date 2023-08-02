@@ -9,7 +9,6 @@ import LogIn from './authentication/log-in'
 
 export default function Home() {
 
-  const router = useRouter();
   const loggedIn = useAppSelector((state) => state.authReducer.value.isAuth);
   const email = useAppSelector((state) => state.authReducer.value.email);
 
