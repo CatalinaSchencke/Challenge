@@ -4,7 +4,6 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-
 import LogIn from './authentication/log-in'
 
 export default function Home() {
@@ -27,7 +26,6 @@ export default function Home() {
             </div>
           </div>
         </>
-
       }
     </>
   )
