@@ -1,7 +1,7 @@
 import express from 'express';
 const bp = require('body-parser')
-import {db} from './firebase';
-import { doc, collection, setDoc, getDoc, arrayUnion, updateDoc } from "firebase/firestore"; 
+import { db } from './firebase';
+import { doc, collection, setDoc, getDoc, arrayUnion, updateDoc } from "firebase/firestore";
 
 const app = express();
 const port = 3000;
@@ -15,34 +15,34 @@ app.post('/addUser', async (req, res) => {
   const userRef = doc(userdb, id);
 
   // Añadir un servicio para una creación de usuario correcta
-  const userJson ={
+  const userJson = {
     date: req.body.date,
     service: req.body.service,
     value: req.body.value,
     pending: req.body.pending
   }
-  
+
   const response = setDoc(userRef, {
     services: arrayUnion(userJson)
   });
   res.send(response);
 });
 
-app.post ('/addServices', async (req, res) => {
-  try{
+app.post('/addServices', async (req, res) => {
+  try {
     //Identificamos al usuario por su correo (id)
     const id = req.body.email;
     const userdb = collection(db, "Users");
     const userRef = doc(userdb, id);
 
     // Añadir un servicio
-    const userJson ={
+    const userJson = {
       date: req.body.date,
       service: req.body.service,
       value: req.body.value,
       pending: req.body.pending
     }
-    
+
     const response = updateDoc(userRef, {
       services: arrayUnion(userJson)
     });
@@ -54,7 +54,7 @@ app.post ('/addServices', async (req, res) => {
 
 //obtener todos los servicios de un usuario
 app.get('/getUser', async (req, res) => {
-  try{
+  try {
     //Obtener el id del usuario
     const id = req.body.email;
     //Obtener la referencia del usuario
@@ -67,7 +67,7 @@ app.get('/getUser', async (req, res) => {
       res.send(docSnap.data().services);
     } else {
       //Si no existe, enviar mensaje
-      res.send({"message": false});
+      res.send({ "message": false });
     }
   } catch (error) {
     res.send(error);
@@ -76,7 +76,7 @@ app.get('/getUser', async (req, res) => {
 
 //actualizar parámetro pending de servicio
 app.patch('/updateService', async (req, res) => {
-  try{
+  try {
     //Obtener el id del usuario
     const id = req.body.email;
     //Obtener la referencia del usuario
@@ -94,20 +94,20 @@ app.patch('/updateService', async (req, res) => {
       const services = docSnap.data().services;
       const response = await updateDoc(userRef, {
         services: {
-          ... services,
+          ...services,
           [numService]: {
-            ... services[numService],
+            ...services[numService],
             pending: pendingUpdate
           }
         }
       });
       // Si la response no entrega error
-      if (response === void(0)) {
-          //Enviar el servicio actualizado
-          res.send({
-            ... services[numService],
-            pending: pendingUpdate
-          });
+      if (response === void (0)) {
+        //Enviar el servicio actualizado
+        res.send({
+          ...services[numService],
+          pending: pendingUpdate
+        });
       }
     }
 
