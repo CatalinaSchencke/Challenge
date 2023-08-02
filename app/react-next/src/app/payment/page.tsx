@@ -29,12 +29,12 @@ export default function Payment() {
 
     return (
         <>
-            <div className="grid grid-cols-3 w-full h-[calc(100vh_-_5rem)]">
-                <div className="col-span-2 bg-tertiary h-full p-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 w-full h-[calc(100vh_-_5rem)]">
+                <div className="order-last lg:order-none lg:col-span-2 bg-tertiary h-full p-10">
                     <div className="p-10 bg-white shadow-lg border-gray-200 rounded-2xl">
-                        <div className=" flex justify-between">
+                        <div className="flex flex-col md:flex-row md:justify-between">
                             <Title text="Método de pago" />
-                            <div className="rounded-3xl text-gray-500 px-2 py-2 bg-gray-100 grid grid-cols-2 place-items-center">
+                            <div className="mt-4 md:mt-0 rounded-3xl text-gray-500 px-2 py-2 bg-gray-100 grid grid-cols-2 place-items-center">
                                 <button onClick={() => togglePaymentMethod("Debito")} className={`${paymentMethod == "Debito" ? selectedPaymentButtonClasses : ""} cursor-pointer px-6 py-1`}>
                                     Débito
                                 </button>

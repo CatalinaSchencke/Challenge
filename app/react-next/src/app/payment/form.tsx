@@ -101,7 +101,7 @@ export default function PaymentForm() {
     }
 
     return (
-        <form className="mt-5 flex flex-col gap-7 w-3/5">
+        <form className="mt-5 flex flex-col gap-7 w-full md:w-3/5">
             <label>
                 <p className="text-gray-500 mb-2">Número de tarjeta</p>
 
