@@ -46,7 +46,7 @@ export default function Dashboard() {
                     {services.length > 0 ?
                         <>
                             <Table services={services} />
-                            <div className="flex flex-col items-end">
+                            <div className="flex flex-col items-center sm:items-end">
                                 <button onClick={() => payAllServices()} className="bg-red-500 text-white rounded-lg px-20 py-2 disabled:cursor-not-allowed disabled:bg-red-200">
                                     Pagar pendientes
                                 </button>
