@@ -4,12 +4,18 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
 
+import { logIn } from "@/redux/features/auth-slice";
+import { addServices } from "@/redux/features/services-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from '@/redux/store';
+
 import Title from '../components/common/title';
 
 export default function LogIn() {
 
     const router = useRouter();
     const [email, setEmail] = useState('');
+    const dispatch = useDispatch<AppDispatch>();
 
     const baseUrl = 'http://localhost:3002';
 
@@ -25,7 +31,9 @@ export default function LogIn() {
 
         const data = await response.json();
 
-        if (data.status === 'success') {
+        if (data.status === "success") {
+            dispatch(logIn(email));
+            dispatch(addServices(data.services));
             router.push('/dashboard');
         }
     }
