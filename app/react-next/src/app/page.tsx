@@ -3,14 +3,15 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useAppSelector } from '@/redux/store';
 
 import LogIn from './authentication/log-in'
 
 export default function Home() {
 
   const router = useRouter();
-  const loggedIn = false;
-  const email = "example@example.com";
+  const loggedIn = useAppSelector((state) => state.authReducer.value.isAuth);
+  const email = useAppSelector((state) => state.authReducer.value.email);
 
   return (
     <>
