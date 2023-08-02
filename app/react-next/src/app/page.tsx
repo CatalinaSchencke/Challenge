@@ -19,8 +19,8 @@ export default function Home() {
         :
         <>
           <div className="flex h-[calc(100vh_-_5rem)] bg-tertiary justify-center items-center">
-            <div className="flex flex-col items-center gap-4">
-              <h2 className='text-3xl font-medium'>Iniciaste sesión como <span className="text-primary font-semibold">{email}</span></h2>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <h2 className='text-3xl font-medium text-center'>Iniciaste sesión como <span className="text-primary font-semibold">{email}</span></h2>
               <Link href="/dashboard" className="px-20 py-2 rounded-xl bg-primary text-white font-medium">Ir al dashboard</Link>
             </div>
           </div>
