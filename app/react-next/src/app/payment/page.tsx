@@ -6,7 +6,7 @@ import Title from '../components/common/title'
 import Service from './service-detail'
 import PaymentForm from './form'
 
-import { useAppSelector } from "@/redux/store";
+import { useAppSelector } from '@/redux/store';
 
 export default function Payment() {
 
