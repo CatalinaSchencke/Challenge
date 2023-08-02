@@ -1,12 +1,14 @@
 import express from 'express';
 const bp = require('body-parser')
+const cors = require('cors');
 import { db } from './firebase';
 import { doc, collection, setDoc, getDoc, arrayUnion, updateDoc } from "firebase/firestore";
 
 const app = express();
-const port = 3000;
+const port = 3002;
 
-app.use(bp.json())
+app.use(bp.json());
+app.use(cors());
 
 app.post('/addUser', async (req, res) => {
 
@@ -16,13 +18,13 @@ app.post('/addUser', async (req, res) => {
   const userRef = doc(userdb, id);
 
   // data
-  const userJson ={
+  const userJson = {
     date: req.body.date,
     service: req.body.service,
     value: req.body.value,
     pending: req.body.pending
   }
-  
+
   //add services collection
   const servicedb = collection(db, "Services");
   //add doc services
@@ -46,13 +48,13 @@ app.post('/addService', async (req, res) => {
   const userRef = doc(userdb, id);
 
   // add data
-  const userJson ={
+  const userJson = {
     date: req.body.date,
     service: req.body.service,
     value: req.body.value,
     pending: req.body.pending
   }
-  
+
   //add services collection
   const servicedb = collection(db, "Services");
   //add doc services
@@ -71,8 +73,8 @@ app.post('/addService', async (req, res) => {
 
 
 //get all services from user
-app.get('/getUser', async (req, res) => {
-  try{
+app.post('/auth/login', async (req, res) => {
+  try {
     //get user id
     const id = req.body.email;
     //get user reference
@@ -85,16 +87,16 @@ app.get('/getUser', async (req, res) => {
       const services = [];
 
       //for each service in user services array
-      for (const i in docSnap.data().services){
+      for (const i in docSnap.data().services) {
         //get service reference
-        const refService= docSnap.data().services[i];
+        const refService = docSnap.data().services[i];
         //get service data
         const docService = await getDoc(refService);
         //if service exists, push id of service and datato array
         if (docService.exists()) {
           services.push({
             id: refService.id,
-            data : docService.data()
+            data: docService.data()
           });
         }
       }
@@ -112,7 +114,7 @@ app.get('/getUser', async (req, res) => {
 
 // update pending status on service
 app.patch('/updateService', async (req, res) => {
-  try{
+  try {
     //get service id
     const idService = req.body.id;
 
@@ -127,16 +129,16 @@ app.patch('/updateService', async (req, res) => {
     if (docSnap.exists()) {
       //create service object with new pending status
       const service = {
-        date : docSnap.data().date,
-        service : docSnap.data().service,
-        value : docSnap.data().value,
+        date: docSnap.data().date,
+        service: docSnap.data().service,
+        value: docSnap.data().value,
         pending: pendingUpdate
       }
       //update service
       const response = await updateDoc(serviceRef, service);
       // if response is undefined, send service
-      if (response === void(0)) {
-          res.send(service);
+      if (response === void (0)) {
+        res.send(service);
       }
     }
 
