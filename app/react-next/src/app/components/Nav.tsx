@@ -43,7 +43,7 @@ export default function Nav() {
                         ES
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className="font-semibold">
+                        <span className="hidden sm:block font-semibold">
                             {email}
                         </span>
                         <Image src="/dog.png" width={100} height={100} alt="dog" className="h-14 w-auto" />
