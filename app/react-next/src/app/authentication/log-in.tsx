@@ -44,22 +44,20 @@ export default function LogIn() {
     }
 
     return (
-        <>
-            <div className="grid grid-cols-2">
-                <div className="grid grid-rows-3 justify-items-center">
-                    <form onSubmit={(event) => onSubmitLogin(event)} className="row-span-2 row-start-2 row-end-2 flex flex-col gap-6 w-1/2">
-                        <Title text="Iniciar sesión" />
-                        <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Correo electrónico" className="px-6 py-3 bg-[#FFF6E5] outline-primary rounded-lg" />
-                        <input type="submit" className="cursor-pointer px-4 py-3 bg-primary hover:bg-primary-400 text-white font-medium rounded-lg" value="Ingresar" />
-                    </form>
-                    <div className="row-span-1 row-start-3 row-end-3 justify-self-start self-end">
-                        <Image src="./paws.svg" height={0} width={0} className="h-24 w-auto" alt="paws" />
-                    </div>
-                </div>
-                <div className="justify-self-end">
-                    <Image src="/woman-dog.png" alt="woman with a dog" height={1500} width={1500} className="object-contain mr-0 h-[calc(100vh-5rem)] w-auto justify-self-end" />
+        <div className="grid lg:grid-cols-2 min-h-[calc(100vh_-_5rem)]">
+            <div className="grid place-items-center lg:place-items-start lg:grid-rows-3 lg:justify-items-center">
+                <form onSubmit={(event) => onSubmitLogin(event)} className="row-span-2 row-start-2 row-end-2 flex flex-col gap-6 w-10/12 md:w-1/2">
+                    <Title text="Iniciar sesión" />
+                    <input onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Correo electrónico" className="px-6 py-3 bg-[#FFF6E5] outline-primary rounded-lg" />
+                    <input type="submit" className="cursor-pointer px-4 py-3 bg-primary hover:bg-primary-400 text-white font-medium rounded-lg" value="Ingresar" />
+                </form>
+                <div className="row-span-1 row-start-3 row-end-3 justify-self-start self-end">
+                    <Image src="./paws.svg" height={0} width={0} className="h-24 w-auto" alt="paws" />
                 </div>
             </div>
-        </>
+            <div className="hidden lg:block justify-self-end">
+                <Image src="/woman-dog.png" alt="woman with a dog" height={1500} width={1500} className="object-contain mr-0 w-auto h-[calc(100vh_-_5rem)] justify-self-end" />
+            </div>
+        </div>
     )
 }
