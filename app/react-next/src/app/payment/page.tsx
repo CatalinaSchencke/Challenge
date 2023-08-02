@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 import Title from '../components/common/title'
 import Service from './service-detail'
@@ -66,7 +67,8 @@ export default function Payment() {
                         </>
                         :
                         <div className="flex flex-col items-center justify-center pb-20">
-                            <h3 className="text-2xl font-semibold text-gray-800">No hay servicios por pagar</h3>
+                            <h3 className="text-2xl font-semibold text-gray-800 mb-3">No hay servicios por pagar</h3>
+                            <Link href="/dashboard" className="px-20 py-2 rounded-xl bg-primary text-white font-medium">Volver al dashboard</Link>
                         </div>
                     }
                 </div>
