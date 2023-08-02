@@ -87,7 +87,7 @@ app.post('/auth/login', async (req, res) => {
       const services = [];
 
       //for each service in user services array
-      for (const i in docSnap.data().services) {
+      for (let i in docSnap.data().services) {
         //get service reference
         const refService = docSnap.data().services[i];
         //get service data
