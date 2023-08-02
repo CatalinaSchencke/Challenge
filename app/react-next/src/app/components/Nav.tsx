@@ -18,7 +18,7 @@ export default function Nav() {
             {!loggedIn ?
 
                 <>
-                    <div className=" hidden md:flex space-x-10">
+                    <div className="hidden md:flex space-x-10">
                         <Link href="/" >
                             Inicio
                         </Link>
@@ -37,7 +37,7 @@ export default function Nav() {
                 :
 
                 <>
-                    <div className=" hidden md:flex space-x-10">
+                    <div className="hidden md:flex space-x-10">
                         ES
                     </div>
                     <div className="flex items-center gap-3">
