@@ -3,10 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useAppSelector } from '@/redux/store';
+
 export default function Nav() {
 
-    const loggedIn = false;
-    const email = "example@example.com";
+    const loggedIn = useAppSelector((state) => state.authReducer.value.isAuth);
+    const email = useAppSelector((state) => state.authReducer.value.email);
 
     return (
         <div className={"flex justify-around items-center h-20 text-[15px] text-[#424242]"}>
